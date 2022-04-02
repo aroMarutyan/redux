@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import {
   completeTaskAsync,
@@ -6,7 +6,8 @@ import {
   editTaskAsync,
 } from "../store/slice";
 
-import AddTodoForm from "./AddTodoForm";
+import EditTaskForm from "./EditTaskForm";
+import TaskItemView from "./TaskItemView";
 
 const TodoItem = (props) => {
   const { title, category, priority, deadline, description, completed, id } =
@@ -25,10 +26,17 @@ const TodoItem = (props) => {
     setEdit((v) => !v);
   };
 
+  useEffect(() => setEdit(false), []);
+
   return (
     <>
       {edit ? (
-        <AddTodoForm />
+        <>
+          <EditTaskForm props={props} />
+          <button className="btn btn-warning" onClick={handleEditClick}>
+            Edit
+          </button>
+        </>
       ) : (
         <li
           className={`list-group-item ${
@@ -36,16 +44,17 @@ const TodoItem = (props) => {
           }`}
         >
           <div className="d-flex justify-content-between">
-            <div className="d-flex flex-column justify-content-between">
+            <TaskItemView props={props} />
+            {/* <div className="d-flex flex-column justify-content-between">
               <span>
-                {/* <input type="checkbox" className="mr-3" checked={completed}></input> */}
+               
                 {title}
               </span>
               <span>{category}</span>
               <span>{priority}</span>
               <span>{deadline}</span>
               <span>{description}</span>
-            </div>
+            </div> */}
             <div className="d-flex justify-content-evenly">
               <button className="btn btn-danger" onClick={handleDeleteClick}>
                 Delete

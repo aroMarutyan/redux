@@ -1,13 +1,34 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addTaskAsync } from "../store/slice";
+import { editTaskAsync } from "../store/slice";
 
-const AddTodoForm = () => {
-  const [title, setTitle] = useState("");
-  const [category, setCategory] = useState("");
-  const [deadline, setDeadline] = useState("");
-  const [priority, setPriority] = useState("");
-  const [description, setDescription] = useState("");
+const EditTaskForm = ({ props }) => {
+  const {
+    title: parentTitle,
+    category: parentCategory,
+    priority: parentPriority,
+    deadline: parentDeadline,
+    description: parentDescription,
+    completed: parentCompleted,
+    id,
+  } = props;
+  // const { id } = props;
+  const [title, setTitle] = useState(parentTitle);
+  // const [testTitle, setTestTitle] = useState("gizmodo");
+  const [category, setCategory] = useState(parentCategory);
+  const [deadline, setDeadline] = useState(parentDeadline);
+  const [priority, setPriority] = useState(parentPriority);
+  const [description, setDescription] = useState(parentDescription);
+
+  // const [task, setTask] = useState({
+  //   title: parentTitle,
+  //   category: parentCategory,
+  //   priority: parentPriority,
+  //   deadline: parentDeadline,
+  //   description: parentDescription,
+  //   completed: parentCompleted,
+  //   id,
+  // });
 
   const taskList = useSelector((state) => state);
 
@@ -16,19 +37,22 @@ const AddTodoForm = () => {
   const onSubmit = (e) => {
     e.preventDefault();
     dispatch(
-      addTaskAsync({
-        title,
-        category,
-        deadline,
-        priority,
-        description,
-        //   created: ,
-        completed: false,
+      editTaskAsync({
+        id,
+
+        title: title,
+        category: category,
+        deadline: deadline,
+        priority: priority,
+        description: description,
+        // created: ,
+        completed: parentCompleted,
       })
     );
-    e.target.reset();
   };
-  //   console.log(taskList);
+  console.log(taskList);
+  // console.log(id);
+  console.log(title);
 
   return (
     <form onSubmit={onSubmit} className="form-inline mt-3 mb-3">
@@ -39,6 +63,7 @@ const AddTodoForm = () => {
           type="text"
           name="task"
           required
+          value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
       </div>
@@ -47,6 +72,7 @@ const AddTodoForm = () => {
         <select
           className="form-control mb-2 mr-sm-2"
           name="category"
+          value={category}
           onChange={(e) => setCategory(e.target.value)}
         >
           <option value="">Please select category</option>
@@ -60,6 +86,7 @@ const AddTodoForm = () => {
           className="form-control mb-2 mr-sm-2"
           type="date"
           name="deadline"
+          value={deadline}
           onChange={(e) => setDeadline(e.target.value)}
         />
       </div>
@@ -68,6 +95,7 @@ const AddTodoForm = () => {
         <select
           className="form-control mb-2 mr-sm-2"
           name="priority"
+          value={priority}
           onChange={(e) => setPriority(e.target.value)}
         >
           <option value="">Please select priority</option>
@@ -82,14 +110,15 @@ const AddTodoForm = () => {
           className="form-control mb-2 mr-sm-2"
           type="text"
           name="description"
+          value={description}
           onChange={(e) => setDescription(e.target.value)}
         />
       </div>
       <button className="btn btn-primary mb-2" type="submit">
-        Add Task
+        Update
       </button>
     </form>
   );
 };
 
-export default AddTodoForm;
+export default EditTaskForm;

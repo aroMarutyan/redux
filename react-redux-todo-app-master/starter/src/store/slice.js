@@ -70,17 +70,21 @@ export const editTaskAsync = createAsyncThunk(
       headers: {
         "Content-Type": "application/json",
       },
+      //   body: JSON.stringify({ title: payload.title }),
       body: JSON.stringify({
+        id: payload.id,
         title: payload.title,
         category: payload.category,
         priority: payload.priority,
         deadline: payload.deadline,
         description: payload.description,
+        completed: payload.completed,
       }),
     });
 
     if (res.ok) {
       const task = await res.json();
+      console.log(task);
       return { task };
     }
   }
@@ -148,19 +152,37 @@ const taskSlice = createSlice({
       return action.payload.tasks;
     },
     [addTaskAsync.fulfilled]: (state, action) => {
+      console.log(action.payload);
       state.push(action.payload.task);
     },
     [completeTaskAsync.fulfilled]: (state, action) => {
       const index = state.findIndex(
         (task) => task.id === action.payload.task.id
       );
+      console.log(state);
+      //   console.log(action.payload.task.completed);
       state[index].completed = action.payload.task.completed;
     },
     [editTaskAsync.fulfilled]: (state, action) => {
       const index = state.findIndex(
         (task) => task.id === action.payload.task.id
       );
-      state[index].completed = action.payload.task.completed;
+      const task = state[index];
+
+      //   task.title = action.payload.task.title;
+
+      task.id = action.payload.task.id;
+      task.title = action.payload.task.title;
+      task.category = action.payload.task.category;
+      task.priority = action.payload.task.priority;
+      task.deadline = action.payload.task.deadline;
+      task.description = action.payload.task.description;
+      task.completed = action.payload.task.completed;
+
+      //   console.log(action.payload);
+      //   console.log(state[index].title);
+      //   console.log(action.payload.task.title);
+      //   state[index] = action.payload.task;
     },
     [deleteTaskAsync.fulfilled]: (state, action) => {
       return state.filter((task) => task.id !== action.payload.id);
