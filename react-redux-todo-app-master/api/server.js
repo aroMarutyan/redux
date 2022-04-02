@@ -1,71 +1,81 @@
-const express = require('express');
-const dotenv = require('dotenv');
-const colors = require('colors');
-const cors = require('cors');
-const { json } = require('body-parser');
-const { nanoid } = require('nanoid');
+const express = require("express");
+const dotenv = require("dotenv");
+const colors = require("colors");
+const cors = require("cors");
+const { json } = require("body-parser");
+const { nanoid } = require("nanoid");
 
-dotenv.config({ path: './config.env' });
+dotenv.config({ path: "./config.env" });
 
 const app = express();
 
 app.use(cors());
 app.use(json());
 
-let todos = [
-	{
-		id: nanoid(),
-		title: 'todo 1',
-		completed: true,
-	},
-	{
-		id: nanoid(),
-		title: 'todo 2',
-		completed: false,
-	},
-	{
-		id: nanoid(),
-		title: 'todo 3',
-		completed: false,
-	},
-	{
-		id: nanoid(),
-		title: 'todo 4',
-		completed: false,
-	},
-	{
-		id: nanoid(),
-		title: 'todo 5',
-		completed: false,
-	},
+let tasks = [
+  {
+    id: nanoid(),
+    title: "Test 122",
+    category: "weekday",
+    priority: "high",
+    deadline: "01-04-2022",
+    description: "This is ridiculous",
+    completed: false,
+  },
+  {
+    id: nanoid(),
+    title: "Test 2",
+    category: "weekday",
+    priority: "medium",
+    deadline: "03-04-2022",
+    description: "This is ridiculous",
+    completed: false,
+  },
+  {
+    id: nanoid(),
+    title: "Test 4",
+    category: "weekday",
+    priority: "low",
+    deadline: "01-04-2022",
+    description: "This is ridiculous",
+    completed: true,
+  },
 ];
 
-app.get('/todos', (req, res) => res.send(todos));
+app.get("/tasks", (req, res) => res.send(tasks));
 
-app.post('/todos', (req, res) => {
-	const todo = { title: req.body.title, id: nanoid(), completed: false };
-	todos.push(todo);
-	return res.send(todo);
+app.post("/tasks", (req, res) => {
+  const task = {
+    title: req.body.title,
+    id: nanoid(),
+    category: req.body.category,
+    priority: req.body.priority,
+    deadline: req.body.deadline,
+    description: req.body.description,
+    completed: false,
+  };
+  tasks.push(task);
+  return res.send(task);
 });
 
-app.patch('/todos/:id', (req, res) => {
-	const id = req.params.id;
-	const index = todos.findIndex((todo) => todo.id == id);
-	const completed = Boolean(req.body.completed);
-	if (index > -1) {
-		todos[index].completed = completed;
-	}
-	return res.send(todos[index]);
+app.patch("/tasks/:id", (req, res) => {
+  const id = req.params.id;
+  const index = tasks.findIndex((task) => task.id == id);
+  const completed = Boolean(req.body.completed);
+  if (index > -1) {
+    tasks[index].completed = completed;
+  }
+  return res.send(tasks[index]);
 });
 
-app.delete('/todos/:id', (req, res) => {
-	const id = req.params.id;
-	const index = todos.findIndex((todo) => todo.id == id);
-	if (index > -1) {
-		todos.splice(index, 1);
-	}
+app.delete("/tasks/:id", (req, res) => {
+  const id = req.params.id;
+  const index = tasks.findIndex((todo) => todo.id == id);
+  if (index > -1) {
+    tasks.splice(index, 1);
+  }
 
-	res.send(todos);
+  res.send(tasks);
 });
 
 const PORT = 7000;

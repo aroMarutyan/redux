@@ -1,22 +1,31 @@
-import React from 'react';
-import TodoItem from './TodoItem';
+import React, { useEffect } from "react";
+import TodoItem from "./TodoItem";
+import { useSelector, useDispatch } from "react-redux";
+import { getTasksAsync } from "../store/slice";
 
 const TodoList = () => {
-	const todos = [
-		{ id: 1, title: 'todo1', completed: false },
-		{ id: 2, title: 'todo2', completed: false },
-		{ id: 3, title: 'todo3', completed: true },
-		{ id: 4, title: 'todo4', completed: false },
-		{ id: 5, title: 'todo5', completed: false },
-	];
+  const taskList = useSelector((state) => state.tasks);
+  const dispatch = useDispatch();
 
-	return (
-		<ul className='list-group'>
-			{todos.map((todo) => (
-				<TodoItem id={todo.id} title={todo.title} completed={todo.completed} />
-			))}
-		</ul>
-	);
+  useEffect(() => {
+    dispatch(getTasksAsync());
+  }, [dispatch]);
+
+  return (
+    <ul className="list-group">
+      {taskList.map((task) => (
+        <TodoItem
+          id={task.id}
+          title={task.title}
+          category={task.category}
+          priority={task.priority}
+          deadline={task.deadline}
+          description={task.description}
+          completed={task.completed}
+        />
+      ))}
+    </ul>
+  );
 };
 
 export default TodoList;
