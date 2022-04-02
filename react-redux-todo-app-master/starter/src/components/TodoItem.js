@@ -55,20 +55,20 @@ const TodoItem = (props) => {
               <span>{deadline}</span>
               <span>{description}</span>
             </div> */}
-            <div className="d-flex justify-content-evenly">
-              <button className="btn btn-danger" onClick={handleDeleteClick}>
-                Delete
-              </button>
-              <button className="btn btn-warning" onClick={handleEditClick}>
-                Edit
-              </button>
-              <button className="btn btn-success" onClick={handleCompleteClick}>
-                Complete
-              </button>
-            </div>
           </div>
         </li>
       )}
+      <div className="d-flex justify-content-evenly">
+        <button className="btn btn-danger" onClick={handleDeleteClick}>
+          Delete
+        </button>
+        <button className="btn btn-warning" onClick={handleEditClick}>
+          Edit
+        </button>
+        <button className="btn btn-success" onClick={handleCompleteClick}>
+          Complete
+        </button>
+      </div>
     </>
   );
 };

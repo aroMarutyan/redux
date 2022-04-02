@@ -3,6 +3,16 @@ import TodoItem from "./TodoItem";
 import { useSelector, useDispatch } from "react-redux";
 import { getTasksAsync } from "../store/slice";
 
+import {
+  Accordion,
+  AccordionTrigger,
+  AccordionItem,
+  AccordionContent,
+  StyledCheck,
+  StyledCross,
+  StyledGear,
+} from "../styles/taskListStyles";
+
 const TodoList = () => {
   const taskList = useSelector((state) => state.tasks);
   const dispatch = useDispatch();
@@ -12,7 +22,8 @@ const TodoList = () => {
   }, [dispatch]);
 
   return (
-    <ul className="list-group">
+    <Accordion type="multiple">
+      <h3>Active Tasks</h3>
       {taskList.map((task) => (
         <TodoItem
           id={task.id}
@@ -24,8 +35,12 @@ const TodoList = () => {
           completed={task.completed}
         />
       ))}
-    </ul>
+    </Accordion>
   );
 };
 
 export default TodoList;
+
+//  <ul className="list-group">
+
+// </ul>

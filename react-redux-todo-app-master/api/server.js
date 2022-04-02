@@ -15,28 +15,28 @@ app.use(json());
 let tasks = [
   {
     id: nanoid(),
-    title: "Test 1222",
+    title: "Test 1222f",
     category: "weekday",
     priority: "high",
-    deadline: "01-04-2022",
+    deadline: "2022-04-06",
     description: "This is ridiculous",
     completed: false,
   },
   {
     id: nanoid(),
-    title: "Test 2",
+    title: "Test 2ss",
     category: "weekday",
     priority: "medium",
-    deadline: "03-04-2022",
+    deadline: "2022-04-06",
     description: "This is ridiculous",
     completed: false,
   },
   {
     id: nanoid(),
-    title: "Test 4",
+    title: "Test 42ss",
     category: "weekday",
     priority: "low",
-    deadline: "01-04-2022",
+    deadline: "2022-04-06",
     description: "This is ridiculous",
     completed: true,
   },
@@ -65,14 +65,26 @@ app.patch("/tasks/:id", (req, res) => {
   const title = req.body.title;
   const category = req.body.category;
   const priority = req.body.priority;
+  const deadline = req.body.deadline;
   const description = req.body.description;
-
   if (index > -1) {
     tasks[index].completed = completed;
-    tasks[index].title = title;
-    tasks[index].category = category;
-    tasks[index].priority = priority;
-    tasks[index].description = description;
+
+    if (title) {
+      tasks[index].title = title;
+    }
+    if (category) {
+      tasks[index].category = category;
+    }
+    if (priority) {
+      tasks[index].priority = priority;
+    }
+    if (deadline) {
+      tasks[index].deadline = deadline;
+    }
+    if (description) {
+      tasks[index].description = description;
+    }
   }
   return res.send(tasks[index]);
 });

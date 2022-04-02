@@ -1,13 +1,18 @@
-import React, { useState } from "react";
-// import { useDispatch } from "react-redux";
-// import {
-//   completeTaskAsync,
-//   deleteTaskAsync,
-//   editTaskAsync,
-// } from "../store/slice";
+import React from "react";
+
+import {
+  Accordion,
+  AccordionTrigger,
+  AccordionItem,
+  AccordionContent,
+  StyledCheck,
+  StyledCross,
+  StyledGear,
+} from "../styles/taskListStyles";
 
 const TaskItemView = ({ props }) => {
-  const { title, category, priority, deadline, description, completed } = props;
+  const { title, category, priority, deadline, description, completed, id } =
+    props;
   // const [edit, setEdit] = useState(false);
   // const dispatch = useDispatch();
 
@@ -22,12 +27,48 @@ const TaskItemView = ({ props }) => {
   //   setEdit((v) => !v);
   // };
 
+  console.log(id);
+
   return (
-    <ul className={`ulst-group-item ${completed && "list-group-item-success"}`}>
+    <AccordionItem value={id}>
+      <div style={{ display: "flex" }}>
+        <AccordionTrigger>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "space-between",
+              width: "450px",
+            }}
+          >
+            {title}
+          </div>
+        </AccordionTrigger>
+        {/* <button>
+          <StyledCheck />
+        </button>
+        <button onClick={() => console.log("click")}>
+          <StyledCross />
+        </button>
+        <button onClick={() => console.log("click")}>
+          <StyledGear />
+        </button> */}
+      </div>
+      <AccordionContent>Description: {description}</AccordionContent>
+      <AccordionContent>Priority: {priority}</AccordionContent>
+      <AccordionContent>Category: {category}</AccordionContent>
+      <AccordionContent>Deadline: {deadline}</AccordionContent>
+    </AccordionItem>
+  );
+};
+
+export default TaskItemView;
+
+{
+  /* <ul className={`ulst-group-item ${completed && "list-group-item-success"}`}>
       <div className="d-flex justify-content-between">
         <div className="d-flex flex-column justify-content-between">
           <span>
-            {/* <input type="checkbox" className="mr-3" checked={completed}></input> */}
+           
             {title}
           </span>
           <span>{category}</span>
@@ -36,8 +77,5 @@ const TaskItemView = ({ props }) => {
           <span>{description}</span>
         </div>
       </div>
-    </ul>
-  );
-};
-
-export default TaskItemView;
+    </ul> */
+}
