@@ -1,6 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { nanoid } from "@reduxjs/toolkit";
-import { createSelector } from "reselect";
 
 import { localServer, remoteServer } from "../config/serverConfig";
 
@@ -110,41 +109,54 @@ const taskSlice = createSlice({
   // The main reducers seem unnecessary.
   //  kind of a relief. I really didn't understand how they gelled with the async ones. Turns out they dont
   reducers: {
-    taskAdded: (state, action) => {
-      const newTask = {
-        id: nanoid(),
-        title: action.payload.title,
-        category: action.payload.category,
-        priority: action.payload.priority,
-        deadline: action.payload.deadline,
-        description: action.payload.description,
-        completed: false,
-      };
-      state.push(newTask);
-    },
-    taskCompleted: (state, action) => {
-      const index = state.findIndex((task) => task.id === action.payload.id);
-      state[index].completed = true;
-    },
-
-    // Needs more work
-    taskEdited: (state, action) => {
-      const index = state.findIndex((task) => task.id === action.payload.id);
-      const editTask = {
-        title: action.payload.title,
-        category: action.payload.category,
-        priority: action.payload.priority,
-        deadline: action.payload.deadline,
-        description: action.payload.description,
-      };
-      state[index] = editTask;
-    },
-    taskDeleted: (state, action) => {
-      return state.filter((task) => task.id !== action.payload.id);
-    },
+    // taskAdded: (state, action) => {
+    //   const newTask = {
+    //     id: nanoid(),
+    //     title: action.payload.title,
+    //     category: action.payload.category,
+    //     priority: action.payload.priority,
+    //     deadline: action.payload.deadline,
+    //     description: action.payload.description,
+    //     completed: false,
+    //   };
+    //   state.push(newTask);
+    // },
+    // taskCompleted: (state, action) => {
+    //   const index = state.findIndex((task) => task.id === action.payload.id);
+    //   state[index].completed = true;
+    // },
+    // // Needs more work
+    // taskEdited: (state, action) => {
+    //   const index = state.findIndex((task) => task.id === action.payload.id);
+    //   const editTask = {
+    //     title: action.payload.title,
+    //     category: action.payload.category,
+    //     priority: action.payload.priority,
+    //     deadline: action.payload.deadline,
+    //     description: action.payload.description,
+    //   };
+    //   state[index] = editTask;
+    // },
+    // taskDeleted: (state, action) => {
+    //   return state.filter((task) => task.id !== action.payload.id);
+    // },
+    // tasksOrdered: (state, action) => {
+    //   const sortByObject = action.payload.sortBy.reduce((obj, item, index) => {
+    //     return {
+    //       ...obj,
+    //       [item]: index,
+    //     };
+    //   }, {});
+    //   const sortedData = state.sort(
+    //     (a, b) =>
+    //       sortByObject[a[action.payload.sortField]] -
+    //       sortByObject[b[action.payload.sortField]]
+    //   );
+    //   console.log(sortedData.tasks);
+    //   return sortedData;
+    // },
   },
   extraReducers: {
-    // Potentially add spinner while data is fetching
     [getTasksAsync.pending]: (state, action) => {
       return console.log("fetching data...");
     },
@@ -160,7 +172,7 @@ const taskSlice = createSlice({
         (task) => task.id === action.payload.task.id
       );
       console.log(state);
-      //   console.log(action.payload.task.completed);
+
       state[index].completed = action.payload.task.completed;
     },
     [editTaskAsync.fulfilled]: (state, action) => {
@@ -168,8 +180,6 @@ const taskSlice = createSlice({
         (task) => task.id === action.payload.task.id
       );
       const task = state[index];
-
-      //   task.title = action.payload.task.title;
 
       task.id = action.payload.task.id;
       task.title = action.payload.task.title;
@@ -190,18 +200,12 @@ const taskSlice = createSlice({
   },
 });
 
-export const selectActiveTasks = createSelector(
-  // state,
-  (state) => state.tasks,
-
-  (tasks) => tasks.filter((task) => !task.completed)
-);
-export const selectCompletedTasks = createSelector(
-  (state) => state.tasks,
-  (tasks) => tasks.filter((task) => task.completed)
-);
-
 export default taskSlice.reducer;
 
-export const { taskAdded, taskCompleted, taskEdited, taskDeleted } =
-  taskSlice.actions;
+export const {
+  taskAdded,
+  taskCompleted,
+  taskEdited,
+  taskDeleted,
+  tasksOrdered,
+} = taskSlice.actions;

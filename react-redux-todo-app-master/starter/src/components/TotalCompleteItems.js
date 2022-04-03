@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { selectCompletedTasks, selectActiveTasks } from "../store/slice";
+import { selectCompletedTasks, selectActiveTasks } from "../tools/selectors";
 
 const TotalCompleteItems = () => {
   const taskList = useSelector((state) => state);

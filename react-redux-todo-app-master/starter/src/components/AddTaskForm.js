@@ -1,15 +1,14 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { addTaskAsync } from "../store/slice";
+import notify from "../tools/toast";
 
-const AddTodoForm = () => {
+const AddTaskForm = () => {
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("");
   const [deadline, setDeadline] = useState("");
   const [priority, setPriority] = useState("");
   const [description, setDescription] = useState("");
-
-  const taskList = useSelector((state) => state);
 
   const dispatch = useDispatch();
 
@@ -22,13 +21,12 @@ const AddTodoForm = () => {
         deadline,
         priority,
         description,
-        //   created: ,
         completed: false,
       })
     );
+    notify("Task Added", "🎉");
     e.target.reset();
   };
-  //   console.log(taskList);
 
   return (
     <form onSubmit={onSubmit} className="form-inline mt-3 mb-3">
@@ -45,13 +43,14 @@ const AddTodoForm = () => {
       <div>
         <label htmlFor="category">Category</label>
         <select
+          required
           className="form-control mb-2 mr-sm-2"
           name="category"
           onChange={(e) => setCategory(e.target.value)}
         >
           <option value="">Please select category</option>
-          <option value="weekday">Weekday</option>
-          <option value="weekend">Weekend</option>
+          <option value="Weekday">Weekday</option>
+          <option value="Weekend">Weekend</option>
         </select>
       </div>
       <div>
@@ -71,9 +70,9 @@ const AddTodoForm = () => {
           onChange={(e) => setPriority(e.target.value)}
         >
           <option value="">Please select priority</option>
-          <option value="high">High</option>
-          <option value="medium">Standard</option>
-          <option value="low">Low</option>
+          <option value="High">High</option>
+          <option value="Medium">Standard</option>
+          <option value="Low">Low</option>
         </select>
       </div>
       <div>
@@ -86,10 +85,10 @@ const AddTodoForm = () => {
         />
       </div>
       <button className="btn btn-primary mb-2" type="submit">
-        Add Task
+        Submit
       </button>
     </form>
   );
 };
 
-export default AddTodoForm;
+export default AddTaskForm;

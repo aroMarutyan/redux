@@ -1,6 +1,9 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { editTaskAsync } from "../store/slice";
+
+import notify from "../tools/toast";
+// import { Toaster } from "react-hot-toast";
 
 const EditTaskForm = ({ props }) => {
   const {
@@ -12,25 +15,13 @@ const EditTaskForm = ({ props }) => {
     completed: parentCompleted,
     id,
   } = props;
-  // const { id } = props;
+
   const [title, setTitle] = useState(parentTitle);
-  // const [testTitle, setTestTitle] = useState("gizmodo");
+
   const [category, setCategory] = useState(parentCategory);
   const [deadline, setDeadline] = useState(parentDeadline);
   const [priority, setPriority] = useState(parentPriority);
   const [description, setDescription] = useState(parentDescription);
-
-  // const [task, setTask] = useState({
-  //   title: parentTitle,
-  //   category: parentCategory,
-  //   priority: parentPriority,
-  //   deadline: parentDeadline,
-  //   description: parentDescription,
-  //   completed: parentCompleted,
-  //   id,
-  // });
-
-  const taskList = useSelector((state) => state);
 
   const dispatch = useDispatch();
 
@@ -45,14 +36,11 @@ const EditTaskForm = ({ props }) => {
         deadline: deadline,
         priority: priority,
         description: description,
-        // created: ,
         completed: parentCompleted,
       })
     );
+    notify("Task Edited", "🔧");
   };
-  console.log(taskList);
-  // console.log(id);
-  console.log(title);
 
   return (
     <form onSubmit={onSubmit} className="form-inline mt-3 mb-3">

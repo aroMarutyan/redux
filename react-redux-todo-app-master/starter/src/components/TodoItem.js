@@ -1,10 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import {
-  completeTaskAsync,
-  deleteTaskAsync,
-  editTaskAsync,
-} from "../store/slice";
+import { completeTaskAsync, deleteTaskAsync } from "../store/slice";
 
 import EditTaskForm from "./EditTaskForm";
 import TaskItemView from "./TaskItemView";
@@ -16,6 +12,9 @@ import {
   StyledGear,
 } from "../styles/taskListStyles";
 
+import notify from "../tools/toast";
+import { Toaster } from "react-hot-toast";
+
 const TodoItem = (props) => {
   const { title, category, priority, deadline, description, completed, id } =
     props;
@@ -24,9 +23,11 @@ const TodoItem = (props) => {
 
   const handleCompleteClick = () => {
     dispatch(completeTaskAsync({ id, completed: !completed }));
+    !completed && notify("Task Completed", "👏");
   };
   const handleDeleteClick = () => {
     dispatch(deleteTaskAsync({ id }));
+    notify("Task Deleted", "❌");
   };
 
   const handleEditClick = () => {
@@ -41,12 +42,8 @@ const TodoItem = (props) => {
   }
   const dead = Date.parse(deadline);
   const today = Date.now();
-  console.log(deadline);
 
-  // console.log(getDifferenceInDays());
-  // console.log(deadline);
   const warning = getDifferenceInDays(today, dead);
-  console.log(warning);
 
   useEffect(() => setEdit(false), []);
 
@@ -55,9 +52,9 @@ const TodoItem = (props) => {
       {edit ? (
         <>
           <EditTaskForm props={props} />
-          <button className="btn btn-warning" onClick={handleEditClick}>
+          {/* <button className="btn btn-warning" onClick={handleEditClick}>
             Edit
-          </button>
+          </button> */}
         </>
       ) : (
         <li
@@ -67,16 +64,6 @@ const TodoItem = (props) => {
         >
           <div className="d-flex justify-content-between">
             <TaskItemView props={props} />
-            {/* <div className="d-flex flex-column justify-content-between">
-              <span>
-               
-                {title}
-              </span>
-              <span>{category}</span>
-              <span>{priority}</span>
-              <span>{deadline}</span>
-              <span>{description}</span>
-            </div> */}
           </div>
         </li>
       )}
@@ -84,6 +71,7 @@ const TodoItem = (props) => {
         <button className="btn btn-danger" onClick={handleDeleteClick}>
           <StyledCross />
         </button>
+        <Toaster />
         <button className="btn btn-warning" onClick={handleEditClick}>
           <StyledGear />
         </button>
@@ -92,6 +80,9 @@ const TodoItem = (props) => {
         </button>
         <StyledWarning color={warning} />
       </div>
+      <br
+        style={{ margin: "20px", backgroundColor: "red", height: "200px" }}
+      ></br>
     </>
   );
 };

@@ -38,7 +38,7 @@ const TaskItemView = ({ props }) => {
             style={{
               display: "flex",
               alignItems: "space-between",
-              width: "450px",
+              width: "30vw",
             }}
           >
             {title}
@@ -54,10 +54,10 @@ const TaskItemView = ({ props }) => {
           <StyledGear />
         </button> */}
       </div>
-      <AccordionContent>Description: {description}</AccordionContent>
-      <AccordionContent>Priority: {priority}</AccordionContent>
       <AccordionContent>Category: {category}</AccordionContent>
+      <AccordionContent>Priority: {priority}</AccordionContent>
       <AccordionContent>Deadline: {deadline}</AccordionContent>
+      <AccordionContent>Description: {description}</AccordionContent>
     </AccordionItem>
   );
 };

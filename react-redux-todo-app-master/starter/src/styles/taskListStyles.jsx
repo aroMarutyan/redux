@@ -69,7 +69,8 @@ const StyledHeader = styled(AccordionPrimitive.Header, {
 const StyledTrigger = styled(AccordionPrimitive.Trigger, {
   all: "unset",
   fontFamily: "inherit",
-  backgroundColor: "transparent",
+  //   backgroundColor: "rgb(255,200,150)",
+  backgroundColor: violet.violet11,
   padding: "0 20px",
   height: 45,
   flex: 1,
