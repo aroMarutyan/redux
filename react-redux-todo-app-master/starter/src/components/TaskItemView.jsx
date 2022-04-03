@@ -27,7 +27,8 @@ const TaskItemView = ({ props }) => {
   //   setEdit((v) => !v);
   // };
 
-  console.log(id);
+  // console.log(Date.parse(deadline));
+  // console.log(Date.now() - Date.parse(deadline));
 
   return (
     <AccordionItem value={id}>

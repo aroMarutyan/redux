@@ -9,6 +9,13 @@ import {
 import EditTaskForm from "./EditTaskForm";
 import TaskItemView from "./TaskItemView";
 
+import {
+  StyledCheck,
+  StyledCross,
+  StyledWarning,
+  StyledGear,
+} from "../styles/taskListStyles";
+
 const TodoItem = (props) => {
   const { title, category, priority, deadline, description, completed, id } =
     props;
@@ -25,6 +32,21 @@ const TodoItem = (props) => {
   const handleEditClick = () => {
     setEdit((v) => !v);
   };
+
+  function getDifferenceInDays(date1, date2) {
+    const diffInMs = date2 - date1;
+    const result = diffInMs / (1000 * 60 * 60 * 24);
+
+    return result < 1 && result > 0 ? "orange" : result <= 0 ? "red" : "";
+  }
+  const dead = Date.parse(deadline);
+  const today = Date.now();
+  console.log(deadline);
+
+  // console.log(getDifferenceInDays());
+  // console.log(deadline);
+  const warning = getDifferenceInDays(today, dead);
+  console.log(warning);
 
   useEffect(() => setEdit(false), []);
 
@@ -60,14 +82,15 @@ const TodoItem = (props) => {
       )}
       <div className="d-flex justify-content-evenly">
         <button className="btn btn-danger" onClick={handleDeleteClick}>
-          Delete
+          <StyledCross />
         </button>
         <button className="btn btn-warning" onClick={handleEditClick}>
-          Edit
+          <StyledGear />
         </button>
         <button className="btn btn-success" onClick={handleCompleteClick}>
-          Complete
+          <StyledCheck />
         </button>
+        <StyledWarning color={warning} />
       </div>
     </>
   );

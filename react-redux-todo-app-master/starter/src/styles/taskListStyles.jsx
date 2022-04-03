@@ -6,6 +6,7 @@ import {
   CheckIcon,
   Cross2Icon,
   GearIcon,
+  ExclamationTriangleIcon,
 } from "@radix-ui/react-icons";
 import * as AccordionPrimitive from "@radix-ui/react-accordion";
 
@@ -120,6 +121,10 @@ export const StyledCross = styled(Cross2Icon, {
 });
 export const StyledGear = styled(GearIcon, {
   color: violet.violet10,
+  transition: "transform 300ms cubic-bezier(0.87, 0, 0.13, 1)",
+  //   "[data-state=open] &":{ (disabled = true)},
+});
+export const StyledWarning = styled(ExclamationTriangleIcon, {
   transition: "transform 300ms cubic-bezier(0.87, 0, 0.13, 1)",
   //   "[data-state=open] &":{ (disabled = true)},
 });
